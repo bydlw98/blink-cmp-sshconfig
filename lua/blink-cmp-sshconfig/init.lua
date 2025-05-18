@@ -5,7 +5,10 @@
 local sshconfig = {}
 
 function sshconfig.new()
-	return setmetatable({ completion_items = {} }, { __index = sshconfig })
+	return setmetatable(
+		{ completion_items = require("blink-cmp-sshconfig.completion_items") },
+		{ __index = sshconfig }
+	)
 end
 
 function sshconfig:enabled()
