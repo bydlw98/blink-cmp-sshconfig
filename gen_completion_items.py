@@ -1,6 +1,7 @@
 from typing import TextIO
 from bs4 import BeautifulSoup
 import requests
+import re
 
 
 def format_completion_item(fp: TextIO, label: str, documentation: str):
@@ -8,7 +9,7 @@ def format_completion_item(fp: TextIO, label: str, documentation: str):
     fp.write(f'\t\tlabel = "{label}",\n')
     fp.write(f"\t\tdocumentation = {{\n")
     fp.write(f'\t\t\tkind = "markdown",\n')
-    fp.write(f'\t\t\tvalue = "{documentation}",\n')
+    fp.write(f'\t\t\tvalue = [[{documentation}]],\n')
     fp.write("\t\t},\n")
     fp.write("\t},\n")
 
@@ -25,8 +26,25 @@ def write_completion_items(fp: TextIO):
         if tag.name == "dt":
             label = tag["id"]
         elif tag.name == "dd":
-            documentation = " ".join(tag.get_text().split())
+            for elem in tag.find_all("p"):
+                elem.replace_with(f"\n\n{elem.text}\n\n")
+
+            for elem in tag.find_all("code", attrs={"class": "Cm"}):
+                elem.replace_with(f"**{elem.text}**")
+
+            for elem in tag.find_all("var", attrs={"class": "Ar"}):
+                elem.replace_with(f"|{elem.text}|")
+
+            for elem in tag.find_all("a"):
+                elem.replace_with(f"[{elem.text}]")
+
+            documentation = tag.get_text()
             documentation = documentation.replace('"', '\\"')
+
+            new_documentation = ""
+            for paragraph in re.split(r"[\n]{2,}", documentation):
+                new_documentation += (" ".join(paragraph.split()) + "\n\n")
+            documentation = new_documentation
         elif label == "" or documentation == "":
             continue
         else:
