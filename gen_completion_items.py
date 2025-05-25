@@ -10,7 +10,7 @@ def format_completion_item(fp: TextIO, label: str, documentation: str):
     fp.write('\t\tkind = require("blink.cmp.types").CompletionItemKind.Keyword,')
     fp.write(f"\t\tdocumentation = {{\n")
     fp.write(f'\t\t\tkind = "markdown",\n')
-    fp.write(f'\t\t\tvalue = [[{documentation}]],\n')
+    fp.write(f"\t\t\tvalue = [[{documentation}]],\n")
     fp.write("\t\t},\n")
     fp.write("\t},\n")
 
@@ -44,7 +44,7 @@ def write_completion_items(fp: TextIO):
 
             new_documentation = ""
             for paragraph in re.split(r"[\n]{2,}", documentation):
-                new_documentation += (" ".join(paragraph.split()) + "\n\n")
+                new_documentation += " ".join(paragraph.split()) + "\n\n"
             documentation = new_documentation
         elif label == "" or documentation == "":
             continue
