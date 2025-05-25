@@ -7,7 +7,7 @@ import re
 def format_completion_item(fp: TextIO, label: str, documentation: str):
     fp.write("\t{\n")
     fp.write(f'\t\tlabel = "{label}",\n')
-    fp.write('\t\tkind = require("blink.cmp.types").CompletionItemKind.Keyword,')
+    fp.write('\t\tkind = require("blink.cmp.types").CompletionItemKind.Keyword,\n')
     fp.write(f"\t\tdocumentation = {{\n")
     fp.write(f'\t\t\tkind = "markdown",\n')
     fp.write(f"\t\t\tvalue = [[{documentation}]],\n")
