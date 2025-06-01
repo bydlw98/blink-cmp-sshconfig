@@ -1,0 +1,35 @@
+name: Luacheck
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "**/*.lua"
+      - .stylua.toml
+      - .github/workflows/stylua.yaml
+  pull_request:
+    paths:
+      - "**/*.lua"
+      - .stylua.toml
+      - .github/workflows/stylua.yaml
+
+env:
+  CLICOLOR: 1
+
+jobs:
+  luacheck:
+    name: Lint lua files using Luacheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Run Luacheck
+        uses: lunarmodules/luacheck@v1
+        with:
+          args: .
