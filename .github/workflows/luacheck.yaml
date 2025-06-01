@@ -9,13 +9,13 @@ on:
       - main
     paths:
       - "**/*.lua"
-      - .stylua.toml
-      - .github/workflows/stylua.yaml
+      - .luacheckrc
+      - .github/workflows/luacheck.yaml
   pull_request:
     paths:
       - "**/*.lua"
-      - .stylua.toml
-      - .github/workflows/stylua.yaml
+      - .luacheckrc
+      - .github/workflows/luacheck.yaml
 
 env:
   CLICOLOR: 1
