@@ -1,7 +1,7 @@
 [project]
 name = "blink-cmp-sshconfig"
 version = "0.1.0"
-description = "Add your description here"
+description = "blink.cmp source for ssh_config(5) files"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
