@@ -1,42 +1,85 @@
+<div align="center">
+
 # blink-cmp-sshconfig
 
-[blink.cmp](https://github.com/Saghen/blink.cmp) source for ssh_config(5) files.
+[blink.cmp](https://github.com/Saghen/blink.cmp) source for sshconfig files.
 
 Keywords and their meanings are taken from [OpenBSD ssh_config(5)](https://man.openbsd.org/ssh_config).
 
+</div>
+
+---
+
+## Requirements
+
+- neovim >= 0.11.0
+- `python`
+- `uv`
+- `GNU make`
+
+---
+
 ## Installation
 
-### `lazy.nvim`
+### [`lazy.nvim`](https://github.com/folke/lazy.nvim)
 
 ```lua
-{
-    "saghen/blink.cmp",
-    dependencies = {
-        "bydlw98/blink-cmp-sshconfig",
-    },
-    opts = {
+require("lazy").setup({
+  spec = {
+    {
+      "saghen/blink.cmp",
+      dependencies = {
+        {
+          "bydlw98/blink-cmp-sshconfig",
+          build = 'make',
+        },
+      },
+      opts = {
         sources = {
-            default = { "lsp", "path", "snippets", "buffer", "sshconfig" },
-            providers = {
-                sshconfig = {
-                    name = "SshConfig",
-                    module = "blink-cmp-sshconfig",
-                }
+          default = { "lsp", "path", "snippets", "buffer", "sshconfig" },
+          providers = {
+            sshconfig = {
+              name = "SshConfig",
+              module = "blink-cmp-sshconfig",
             }
+          }
         }
-    }
-}
+      }
+    },
+  },
+})
 ```
+
+### [`vim-plug`](https://github.com/junegunn/vim-plug)
+
+```vim
+call plug#begin()
+
+Plug 'Saghen/blink.cmp'
+Plug 'bydlw98/blink-cmp-sshconfig', { 'do': 'make' }
+
+lua << EOF
+require("blink.cmp").setup({
+  sources = {
+    default = { "lsp", "path", "snippets", "buffer", "sshconfig" },
+    providers = {
+      sshconfig = {
+        name = "SshConfig",
+        module = "blink-cmp-sshconfig",
+      }
+    }
+  }
+})
+EOF
+
+call plug#end()
+```
+
+---
 
 ## Generating completion_items.lua
 
-You can generate the keywords and their meanings in `completion_items.lua` with the following command:
-
-```sh
-uv run gen_completion_items.py
-```
-
-A Makefile is also provided as a wrapper.
+You can generate the keywords and their meanings in `lua/blink-cmp-sshconfig/completion_items.lua` with the following command:
 
 ```sh
 make
