@@ -22,6 +22,16 @@ local function check_install()
 
 	check_executable("make")
 	check_executable("uv")
+
+	local completion_items_file = "lua/blink-cmp-sshconfig/completion_items.lua"
+	if vim.fn.empty(vim.fn.globpath(vim.o.rtp, completion_items_file)) == 1 then
+		vim.health.error(
+			"`completion_items.lua` not found",
+			"Run `make` to generate `completion_items.lua`"
+		)
+	else
+		vim.health.ok("`completion_items.lua` found")
+	end
 end
 
 local M = {}
