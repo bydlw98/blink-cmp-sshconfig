@@ -40,6 +40,11 @@ function sshconfig.build()
 end
 
 function sshconfig.new()
+	local has_completion_items, _ = pcall(require, "blink-cmp-sshconfig.completion_items")
+	if not has_completion_items then
+		sshconfig.build()
+	end
+
 	return setmetatable(
 		{ completion_items = require("blink-cmp-sshconfig.completion_items") },
 		{ __index = sshconfig }
