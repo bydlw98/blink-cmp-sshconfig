@@ -93,6 +93,7 @@ def main() -> int:
         fp.write("\n".join(header))
         format_completion_items(fp)
         fp.write("\n".join(footer))
+        fp.write("\n")
 
     return 0
 
