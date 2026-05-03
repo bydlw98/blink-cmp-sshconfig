@@ -29,10 +29,7 @@ require("lazy").setup({
     {
       "saghen/blink.cmp",
       dependencies = {
-        {
-          "bydlw98/blink-cmp-sshconfig",
-          build = 'make',
-        },
+        { "bydlw98/blink-cmp-sshconfig" },
       },
       opts = {
         sources = {
@@ -41,6 +38,11 @@ require("lazy").setup({
             sshconfig = {
               name = "SshConfig",
               module = "blink-cmp-sshconfig",
+              --- @module 'blink-cmp-sshconfig'
+              --- @type blink-cmp-sshconfig.Options
+              opts = {
+                prefer_pre_generated = true,
+              },
             }
           }
         }
@@ -56,7 +58,7 @@ require("lazy").setup({
 call plug#begin()
 
 Plug 'Saghen/blink.cmp'
-Plug 'bydlw98/blink-cmp-sshconfig', { 'do': 'make' }
+Plug 'bydlw98/blink-cmp-sshconfig'
 
 lua << EOF
 require("blink.cmp").setup({
@@ -66,6 +68,11 @@ require("blink.cmp").setup({
       sshconfig = {
         name = "SshConfig",
         module = "blink-cmp-sshconfig",
+        --- @module 'blink-cmp-sshconfig'
+        --- @type blink-cmp-sshconfig.Options
+        opts = {
+          prefer_pre_generated = true,
+        },
       }
     }
   }
@@ -75,11 +82,36 @@ EOF
 call plug#end()
 ```
 
+## Options
+
+### prefer_pre_generated (type: boolean)
+
+_Default:_ `true`
+
+Specify whether to use pre-generated `completion_items.lua` instead of generating `completion_items.lua`.
+
 ---
 
-## Generating completion_items.lua
+## Building completion_items.lua
 
-You can generate the keywords and their meanings in `lua/blink-cmp-sshconfig/completion_items.lua` with the following command:
+`lua/blink-cmp-sshconfig/completion_items.lua` contains the sshconfig keywords and their meanings.
+`blink-cmp-sshconfig` will automatically build `completion_items.lua` if `completion_items.lua` is not found.
+
+You can also manually build `completion_items.lua` with the following methods:
+
+Using pre-generated `completion_items.lua`
+
+```lua
+require("blink-cmp-sshconfig").build(true)
+```
+
+Generate `completion_items.lua`
+
+```lua
+require("blink-cmp-sshconfig").build(false)
+```
+
+Generate `completion_items.lua` from the command line
 
 ```sh
 make
